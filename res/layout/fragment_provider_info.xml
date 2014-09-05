@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+	<LinearLayout android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical">
+
+		<TableLayout 
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content" >
+		    
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/net_operator_name"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/net_operator_name"/>   
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/sim_operator_state"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/sim_operator_state"/>   
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingBottom="8dp" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/sim_operator_name"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/sim_operator_name"/>   
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/signal_strength_gsm"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/signal_strength_gsm"/>   
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/signal_strength_cdma"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/signal_strength_cdma"/>   
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/signal_strength_wcdma"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/signal_strength_wcdma"/>   
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/signal_strength_lte"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/signal_strength_lte"/>   
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/cell_location"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/cell_location"/>   
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/mobile_active_network"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:id="@+id/mobile_active_network"/>
+			    
+			     
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingTop="8dp" >
+		
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/altitude"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:id="@+id/fragment_provider_altitude"/>
+			    
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/latitude"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:id="@+id/fragment_provider_latitude"/>
+			    
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/longtitude"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:id="@+id/fragment_provider_longtitude"/>
+			    
+			</TableRow>
+			
+			<TextView android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="@string/cell_phone_info"
+			    android:gravity="left"
+			    android:paddingTop="8dp"
+			    />
+			     
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingTop="8dp" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/cell_info"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:id="@+id/cell_info"/>
+			    
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/neighbor_cell_info"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:id="@+id/neighbor_cell_info"/>
+			     
+			</TableRow>
+			
+			
+		</TableLayout>
+	
+		<LinearLayout android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:paddingLeft="8dp"
+		    android:paddingRight="8dp">
+			
+		    <Button android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:text="@string/start"
+		        android:id="@+id/fragment_provider_start_button"
+		        android:layout_weight="1"/>
+		    
+		    <Button android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:text="@string/stop"
+		        android:id="@+id/fragment_provider_stop_button"
+		        android:layout_weight="1"/>
+	    
+		    <Button android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:text="@string/map"
+		        android:id="@+id/fragment_provider_map_button"
+		        android:layout_weight="1"/>
+		</LinearLayout>
+		
+		<Button android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Remove DB"
+		    android:id="@+id/remove_db"
+		    android:layout_gravity="center"/>
+	</LinearLayout>
+
+</ScrollView>
