@@ -3,6 +3,7 @@ package com.weitingco.leehsuan.signaltracker;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.content.AsyncTaskLoader;
+import android.util.Log;
 
 public abstract class SQLiteCursorLoader extends AsyncTaskLoader<Cursor>{
 	
@@ -19,7 +20,11 @@ public abstract class SQLiteCursorLoader extends AsyncTaskLoader<Cursor>{
 		Cursor cursor = loadCursor();
 		if(cursor != null){
 			//Ensure that the content window is filled
-			cursor.getCount();
+			try{
+				cursor.getCount();
+			} catch (Exception e){
+				Log.e("SQLiteLoader", e.toString());
+			}
 		}
 		return cursor;
 	}

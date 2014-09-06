@@ -52,6 +52,10 @@ public class ProviderManager {
 		return sProviderManager;
 	}
 	
+	public void recreateDatabase(Context appContext){
+		mHelper = new ProviderDatabaseHelper(mAppContext);
+	}
+	
 	private PendingIntent getLocationPendingIntent(boolean shouldCreate){
 		Intent broadcast = new Intent(ACTION_LOCATION);
 		int flags = shouldCreate ? 0:PendingIntent.FLAG_NO_CREATE;
@@ -84,6 +88,10 @@ public class ProviderManager {
 	
 	public boolean isTrackingProvider(Provider provider){
 		return provider != null && provider.getId() == mCurrentProviderId;
+	}
+	
+	public boolean isTrackingProvider(long providerId){
+		return providerId != -1 && providerId == mCurrentProviderId;
 	}
 	
 	public void stopLocationUpdates(){

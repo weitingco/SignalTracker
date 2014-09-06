@@ -4,5 +4,10 @@
         android:showAsAction="always"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/new_provider"/>
+    
+    <item android:id="@+id/menu_item_delete_database"
+        android:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/delete_database"/>
 
 </menu>

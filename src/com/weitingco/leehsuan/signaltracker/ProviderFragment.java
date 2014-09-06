@@ -48,6 +48,7 @@ public class ProviderFragment extends Fragment {
 	private TelephonyManager mTM;
 	private myPhoneStateListener mListener;
 	private ConnectivityManager mCM;
+	
 	private TextView netText, simText, cdmaText, gsmText, wcdmaText, mSimStateText,
 		lteText, mCellInfoText, mNeighborCellInfoText, mCellLocationText,
 		mMobileNetText, mAltitudeText, mLatitudeText, mLongtitudeText;
@@ -68,10 +69,10 @@ public class ProviderFragment extends Fragment {
 
         @Override
         protected void onLocationReceived(Context context, Location loc) {
-        	/*
+        	
             if (!mProviderManager.isTrackingProvider(mProvider))
                 return;
-            */
+            
             mLastLocation = loc;
             //Update the Signal Location;
             mLastSignalLocation.setLocation(mLastLocation);
@@ -81,7 +82,7 @@ public class ProviderFragment extends Fragment {
             	mLastSignalLocation.setSignalStrength(mGSM);
             mLastSignalLocation.setSignalType(mMobileNetName);
             //insert to the data base
-            //ProviderManager.get(getActivity()).insertLocation(mLastSignalLocation);
+            ProviderManager.get(getActivity()).insertLocation(mLastSignalLocation);
             
             Log.d(TAG, this + " Got location from "+ loc.getProvider() + ": "
     				+ loc.getLatitude()+", "+loc.getLongitude());
@@ -226,6 +227,7 @@ public class ProviderFragment extends Fragment {
         	sWL.release();
         	sWL = null;
         }
+		super.onDestroy();
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, 
@@ -263,7 +265,7 @@ public class ProviderFragment extends Fragment {
 			public void onClick(View v) {
 		        //mProviderManager.startTrackingProvider();
 				PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
-		        sWL = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
+		        sWL = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, TAG);
 		        sWL.acquire();
 				if (mProvider == null) {
 					Log.d(TAG,mNetOperator);
@@ -293,6 +295,10 @@ public class ProviderFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
+				if(sWL != null){
+		        	sWL.release();
+		        	sWL = null;
+		        }
 				Intent i = new Intent(getActivity(), ProviderMapActivity.class);
 				i.putExtra(ProviderMapActivity.EXTRA_PROVIDER_ID, mProvider.getId());
 				i.putExtra(ProviderMapActivity.EXTRA_PROVIDER_NAME, mProvider.getName());

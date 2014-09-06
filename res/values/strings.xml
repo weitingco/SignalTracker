@@ -29,5 +29,6 @@
     <string name="location_start">Start point!</string>
     <string name="location_started_at_format">Started at %s</string>
     <string name="location_finish">Finish!</string>
+    <string name="delete_database">Delete Database</string>
     
 </resources>

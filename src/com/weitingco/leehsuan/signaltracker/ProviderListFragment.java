@@ -1,5 +1,7 @@
 package com.weitingco.leehsuan.signaltracker;
 
+import java.io.File;
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -76,6 +78,12 @@ public class ProviderListFragment extends ListFragment implements LoaderCallback
 					startActivityForResult(i,REQUEST_NEW_PROVIDER);
 				}
 				return true;
+			case R.id.menu_item_delete_database:
+				File fileDB = getActivity().getDatabasePath("providers.sqlite");
+				fileDB.delete();
+				getLoaderManager().destroyLoader(0);
+				sIsProviderInDatabase = false;
+				ProviderManager.get(getActivity()).recreateDatabase(getActivity());
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -96,10 +104,11 @@ public class ProviderListFragment extends ListFragment implements LoaderCallback
 			getLoaderManager().restartLoader(0, null, this);
 		}
 	}
+	
 	// use the loader instead
 	public void onResume(){
 		super.onResume();
-		if(getLoaderManager() != null) getLoaderManager().restartLoader(0, null, this);
+		//if(getLoaderManager() != null) getLoaderManager().restartLoader(0, null, this);
 	}
 	
 	private static class ProviderCursorAdapter extends CursorAdapter{
@@ -132,8 +141,8 @@ public class ProviderListFragment extends ListFragment implements LoaderCallback
 			boolean trackingThisProvider = ProviderManager.get(context)
 					.isTrackingProvider(provider);
 			TextView title = (TextView)view.findViewById(R.id.list_item_provider_title);
-			title.setText(provider.getName() +" ID: "+
-					String.valueOf(provider.getId()));
+			title.setText(provider.getName());
+					//+" ID: "+String.valueOf(provider.getId()));
 			TextView date = (TextView)view.findViewById(R.id.list_item_run_date);
 			String dateFormat = "EEE, MMM 'at' dd k:m:s";
 			date.setText("Run starts from:"+

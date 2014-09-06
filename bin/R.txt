@@ -378,6 +378,7 @@ int id list_item_current_tracking 0x7f080061
 int id list_item_provider_title 0x7f080063
 int id list_item_run_date 0x7f080064
 int id match_parent 0x7f08000c
+int id menu_item_delete_database 0x7f080066
 int id menu_item_new_provider 0x7f080065
 int id middle 0x7f080024
 int id mobile_active_network 0x7f080057
@@ -503,6 +504,7 @@ int string common_google_play_services_update_text 0x7f07000d
 int string common_google_play_services_update_title 0x7f07000c
 int string common_signin_button_text 0x7f070017
 int string common_signin_button_text_long 0x7f070018
+int string delete_database 0x7f070043
 int string gps_disabled 0x7f070039
 int string gps_enabled 0x7f070038
 int string hello_world 0x7f070028

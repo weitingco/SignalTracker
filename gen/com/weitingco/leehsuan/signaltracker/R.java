@@ -1514,6 +1514,7 @@ containing a value of this type.
         public static final int list_item_provider_title=0x7f080063;
         public static final int list_item_run_date=0x7f080064;
         public static final int match_parent=0x7f08000c;
+        public static final int menu_item_delete_database=0x7f080066;
         public static final int menu_item_new_provider=0x7f080065;
         public static final int middle=0x7f080024;
         public static final int mobile_active_network=0x7f080057;
@@ -1760,6 +1761,7 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f070018;
+        public static final int delete_database=0x7f070043;
         public static final int gps_disabled=0x7f070039;
         public static final int gps_enabled=0x7f070038;
         public static final int hello_world=0x7f070028;
