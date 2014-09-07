@@ -139,6 +139,12 @@ public class ProviderDatabaseHelper extends SQLiteOpenHelper {
 				CREATE_LOCATION_TABLE_POST);
 	}
 	
+	public void deleteProviderLocationTable(String providerName){
+		String tableName = TABLE_PROVIDER_LOCATION + providerName;
+		getWritableDatabase().execSQL("DROP TABLE IF EXISTS " + tableName);
+		createProviderLocationTable(providerName);
+	}
+	
 	public ProviderCursor queryProviders(){
 		//Equivalent to "select * from run order by start_date asc"
 		Cursor wrapped = getReadableDatabase().query(TABLE_PROVIDER, 
@@ -206,6 +212,8 @@ public class ProviderDatabaseHelper extends SQLiteOpenHelper {
 		return getWritableDatabase().insert(
 				getLocationTableName(sigLoc), null, cv);
 	}
+	
+	
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -30,6 +30,9 @@ import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -105,6 +108,9 @@ public class ProviderFragment extends Fragment {
 		@Override
 		public void onSignalStrengthsChanged(SignalStrength signalStrength){
 			super.onSignalStrengthsChanged(signalStrength);
+			
+			if(!mProviderManager.isTrackingProvider(mProvider)) return;
+			
 			//Get provider names
 			mSimOperator = mTM.getSimOperatorName();// return empty string in some cases
 			mNetOperator = mTM.getNetworkOperatorName();
@@ -174,9 +180,30 @@ public class ProviderFragment extends Fragment {
         return pf;
     }
 	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.provider_fragment_options, menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch(item.getItemId()){
+			case R.id.menu_item_delete_table:
+				if(mProvider != null){
+					mProviderManager.deleteProviderLocationTable(mProvider.getName());
+				}
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		
+		setHasOptionsMenu(true);
+		
 		mProviderManager = ProviderManager.get(getActivity());
 		
 		setRetainInstance(true);
@@ -203,8 +230,7 @@ public class ProviderFragment extends Fragment {
                 //mLastLocation = mRunManager.getLastLocationForRun(runId);
                 //lm.initLoader(LOAD_LOCATION, args, new LocationLoaderCallbacks());
             }
-        }
-        
+        }   
         
 	}
 	
@@ -306,16 +332,6 @@ public class ProviderFragment extends Fragment {
 			}
 		});
 		
-		Button deleteDBButton = (Button)v.findViewById(R.id.remove_db);
-		deleteDBButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				//getActivity().deleteDatabase("providers.sqlite");
-				File fileDB = getActivity().getDatabasePath("providers.sqlite");
-				fileDB.delete();
-			}
-		});
 		
 		updateUI();
 		return v;
@@ -331,8 +347,9 @@ public class ProviderFragment extends Fragment {
 		}
 		
 		mSimStateText.setText(String.valueOf(mTM.getSimState()));
-		netText.setText(mNetOperator);
-		
+		if(mProvider != null){
+			netText.setText(mProvider.getName());
+		}
 		//Update Signal 
 		if(mGSM  != -1)
 			gsmText.setText(String.valueOf(mGSM));

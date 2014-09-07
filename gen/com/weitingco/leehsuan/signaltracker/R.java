@@ -1509,12 +1509,13 @@ containing a value of this type.
         public static final int image=0x7f080039;
         public static final int listMode=0x7f080014;
         public static final int list_item=0x7f08003b;
-        public static final int list_item_current_provider=0x7f080062;
-        public static final int list_item_current_tracking=0x7f080061;
-        public static final int list_item_provider_title=0x7f080063;
-        public static final int list_item_run_date=0x7f080064;
+        public static final int list_item_current_provider=0x7f080061;
+        public static final int list_item_current_tracking=0x7f080060;
+        public static final int list_item_provider_title=0x7f080062;
+        public static final int list_item_run_date=0x7f080063;
         public static final int match_parent=0x7f08000c;
         public static final int menu_item_delete_database=0x7f080066;
+        public static final int menu_item_delete_table=0x7f080064;
         public static final int menu_item_new_provider=0x7f080065;
         public static final int middle=0x7f080024;
         public static final int mobile_active_network=0x7f080057;
@@ -1528,7 +1529,6 @@ containing a value of this type.
         public static final int progress_circular=0x7f08002a;
         public static final int progress_horizontal=0x7f08002b;
         public static final int radio=0x7f080041;
-        public static final int remove_db=0x7f080060;
         public static final int sandbox=0x7f080008;
         public static final int satellite=0x7f080002;
         public static final int search_badge=0x7f080044;
@@ -1622,7 +1622,8 @@ containing a value of this type.
         public static final int support_simple_spinner_dropdown_item=0x7f03001c;
     }
     public static final class menu {
-        public static final int provider_list_options=0x7f0c0000;
+        public static final int provider_fragment_options=0x7f0c0000;
+        public static final int provider_list_options=0x7f0c0001;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 

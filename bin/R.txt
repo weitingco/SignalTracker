@@ -373,12 +373,13 @@ int id ifRoom 0x7f08001d
 int id image 0x7f080039
 int id listMode 0x7f080014
 int id list_item 0x7f08003b
-int id list_item_current_provider 0x7f080062
-int id list_item_current_tracking 0x7f080061
-int id list_item_provider_title 0x7f080063
-int id list_item_run_date 0x7f080064
+int id list_item_current_provider 0x7f080061
+int id list_item_current_tracking 0x7f080060
+int id list_item_provider_title 0x7f080062
+int id list_item_run_date 0x7f080063
 int id match_parent 0x7f08000c
 int id menu_item_delete_database 0x7f080066
+int id menu_item_delete_table 0x7f080064
 int id menu_item_new_provider 0x7f080065
 int id middle 0x7f080024
 int id mobile_active_network 0x7f080057
@@ -392,7 +393,6 @@ int id production 0x7f080007
 int id progress_circular 0x7f08002a
 int id progress_horizontal 0x7f08002b
 int id radio 0x7f080041
-int id remove_db 0x7f080060
 int id sandbox 0x7f080008
 int id satellite 0x7f080002
 int id search_badge 0x7f080044
@@ -458,7 +458,8 @@ int layout activity_main 0x7f030019
 int layout fragment_provider_info 0x7f03001a
 int layout list_item_provider 0x7f03001b
 int layout support_simple_spinner_dropdown_item 0x7f03001c
-int menu provider_list_options 0x7f0c0000
+int menu provider_fragment_options 0x7f0c0000
+int menu provider_list_options 0x7f0c0001
 int string abc_action_bar_home_description 0x7f07001b
 int string abc_action_bar_up_description 0x7f07001c
 int string abc_action_menu_overflow_description 0x7f07001d

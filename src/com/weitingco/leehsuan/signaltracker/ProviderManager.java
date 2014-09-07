@@ -22,6 +22,7 @@ public class ProviderManager {
 	private static final String TEST_LOC_PROVIDER ="TEST_PROVIDER";
 	private static final String PREFS_FILE = "providers";
 	private static final String PREF_CURRENT_PROVIDER_ID = "ProviderManager.currentProviderId";
+	private static final String PREF_CURRENT_PROVIDER_NAME = "ProviderManager.currentProviderName";
 	
 	private static ProviderManager sProviderManager;
 	private Context mAppContext;
@@ -41,7 +42,7 @@ public class ProviderManager {
 		mPrefs = mAppContext.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
 		mTelephonyManager = (TelephonyManager)mAppContext
 				.getSystemService(Context.TELEPHONY_SERVICE);
-		mProviderName = mTelephonyManager.getNetworkOperatorName();
+		//mProviderName = mTelephonyManager.getNetworkOperatorName();
 		mCurrentProviderId = mPrefs.getLong(PREF_CURRENT_PROVIDER_ID, -1);
 	}
 	
@@ -117,8 +118,10 @@ public class ProviderManager {
 	public void startTrackingProvider(Provider provider){
 		//keep the Id
 		mCurrentProviderId = provider.getId();
+		mProviderName = provider.getName();
 		//Store it into shared preferences
 		mPrefs.edit().putLong(PREF_CURRENT_PROVIDER_ID, mCurrentProviderId).commit();
+		mPrefs.edit().putString(PREF_CURRENT_PROVIDER_NAME, mProviderName).commit();
 		//start location updates
 		startLocationUpdates();
 	}
@@ -184,6 +187,11 @@ public class ProviderManager {
 	public void createProviderLocationTable(String provider){
 		mHelper.createProviderLocationTable(provider);
 	}
+	
+	public void deleteProviderLocationTable(String providerName){
+		mHelper.deleteProviderLocationTable(providerName);
+	}
+	
 	
 	public LocationCursor queryLocationForProvider(String provider){
 		return mHelper.queryLocationForProvider(provider);

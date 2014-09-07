@@ -108,7 +108,7 @@ public class ProviderListFragment extends ListFragment implements LoaderCallback
 	// use the loader instead
 	public void onResume(){
 		super.onResume();
-		//if(getLoaderManager() != null) getLoaderManager().restartLoader(0, null, this);
+		if(getLoaderManager() != null) getLoaderManager().restartLoader(0, null, this);
 	}
 	
 	private static class ProviderCursorAdapter extends CursorAdapter{

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -27,7 +28,6 @@ import android.telephony.NeighboringCellInfo;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +39,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -52,7 +53,17 @@ public class ProviderMapFragment extends SupportMapFragment
 	private static final String ARG_PROVIDER_ID = "PROVIDER_ID";
 	private static final String ARG_PROVIDER = "PROVIDER_NAME";
 	private static final int LOAD_LOCATIONS = 0;
-	private static final int RED = 0xFFFF0000;
+	
+	private static final int CENTER_RED = 0xFFFF0000;
+	private static final int FILL_RED = 0x50FF0000;
+	private static final int CENTER_BLUE = 0xFF00FF00;
+	private static final int FILL_BLUE = 0x5000FF00;
+	private static final int CENTER_GREEN = 0xFF0000FF;
+	private static final int FILL_GREEN = 0x500000FF;
+	
+	private static final int mStrong = -73;
+	private static final int mMedian = -84;
+	
 	private static WakeLock sWL;
 	
 	private TelephonyManager mTM;
@@ -67,7 +78,8 @@ public class ProviderMapFragment extends SupportMapFragment
 	private String mSimOperator, mNetOperator, mMobileNetName;
 	private String mCellInfo, mNeighborCellInfo, mMobielNetConnectInfo;
 	private ProviderManager mProviderManager;
-	
+	private int mCircleRadius = 1;
+	private int mStrokeWidth = 1;
 	
 	private GoogleMap mGoogleMap;
 	private LocationCursor mLocationCursor;
@@ -90,15 +102,19 @@ public class ProviderMapFragment extends SupportMapFragment
             	newSignalLocation.setSignalStrength(mGSM);
             newSignalLocation.setSignalType(mMobileNetName);
             //insert to the data base
-            //ProviderManager.get(getActivity()).insertLocation(newSignalLocation);
+            ProviderManager.get(getActivity()).insertLocation(newSignalLocation);
         	
             if (isVisible()) {
             	LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
+            	addCircle(latLng);
+            	/*
             	MarkerOptions MidPointMarkerOptions = new MarkerOptions()
 				.position(latLng)
 				.icon(BitmapDescriptorFactory
 						.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
             	mGoogleMap.addMarker(MidPointMarkerOptions);
+            	*/
+            	
             	
             }
                 
@@ -171,10 +187,6 @@ public class ProviderMapFragment extends SupportMapFragment
 					mMobileNetName = nf.getSubtypeName();
 				}
 			}
-			
-			if(isVisible()){
-				updateUI();
-			}
 			//Log.d(TAG, String.valueOf(signalStrength));
 		}
 	}
@@ -200,7 +212,7 @@ public class ProviderMapFragment extends SupportMapFragment
 		mCM = (ConnectivityManager)getActivity()
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		mListener = new myPhoneStateListener();
-		//mTM.listen(mListener ,PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+		mTM.listen(mListener ,PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
 		//Get provider names
 		mSimOperator = mTM.getSimOperatorName();// return empty string in some cases
 		mNetOperator = mTM.getNetworkOperatorName();
@@ -287,6 +299,7 @@ public class ProviderMapFragment extends SupportMapFragment
 		boolean firstFlag = false;
 		while(!mLocationCursor.isAfterLast()){
 			Location loc = mLocationCursor.getSignalLocation().getLocation();
+			int signalStrength = mLocationCursor.getSignalLocation().getSignalStrength();
 			LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
 			line.add(latLng);
 			latLngBuilder.include(latLng);
@@ -301,32 +314,38 @@ public class ProviderMapFragment extends SupportMapFragment
 			if (loc != null && !firstFlag){
 				String startDate = new Date(loc.getTime()).toString();
 				firstFlag = true;
+				/*
 				MarkerOptions startMarkerOptions = new MarkerOptions()
 					.position(latLng)
 					.title(r.getString(R.string.location_start))
 					.snippet(r.getString(R.string.location_started_at_format, startDate));
 					//.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-				mGoogleMap.addMarker(startMarkerOptions);
+				mGoogleMap.addMarker(startMarkerOptions);*/
+				addCircleFromDatabase(latLng,signalStrength);
 				
 			} else if (mLocationCursor.isLast()){
 				//if this is the last location, and not also the first, add a marker
-				String endDate =  new Date(loc.getTime()).toString();
+				/*String endDate =  new Date(loc.getTime()).toString();
 				MarkerOptions finishMarkerOptions = new MarkerOptions()
 					.position(latLng)
 					.title(r.getString(R.string.location_finish))
 					.snippet(endDate)
 					.icon(BitmapDescriptorFactory
 							.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-				mGoogleMap.addMarker(finishMarkerOptions);
+				mGoogleMap.addMarker(finishMarkerOptions);*/
+				addCircleFromDatabase(latLng,signalStrength);
 			} else {
+				/*
 				MarkerOptions MidPointMarkerOptions = new MarkerOptions()
 					.position(latLng)
 					.icon(BitmapDescriptorFactory
 							.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
 				mGoogleMap.addMarker(MidPointMarkerOptions);
+				*/
+				addCircleFromDatabase(latLng,signalStrength);
 			}
 			
-			line.color(RED);
+			line.color(CENTER_RED);
 			//Add the polyline to the Map
 			//mGoogleMap.addPolyline(line);
 			//Make the map zoom to show the track, with some padding
@@ -375,6 +394,50 @@ public class ProviderMapFragment extends SupportMapFragment
 		    }
 			return false;
 		}
+	}
+	
+	private void addCircle(LatLng latLng){
+		int signalStrength = mGSM;
+		int centerColor;
+		int fillColor;
+		if(signalStrength >= mStrong){
+			centerColor = CENTER_GREEN;
+			fillColor = FILL_GREEN;
+		}else if(signalStrength >= mMedian){
+			centerColor = CENTER_BLUE;
+			fillColor = CENTER_BLUE;
+		}else{
+			centerColor = CENTER_RED;
+			fillColor = FILL_RED;
+		}
+		
+		mGoogleMap.addCircle(new CircleOptions()
+			.center(latLng)
+			.radius(mCircleRadius)
+			.strokeColor(centerColor)
+			.strokeWidth(mStrokeWidth)
+			.fillColor(fillColor));
+	}
+	
+	private void addCircleFromDatabase(LatLng latLng, int signalStrength){
+		int centerColor;
+		int fillColor;
+		if(signalStrength >= mStrong){
+			centerColor = CENTER_GREEN;
+			fillColor = FILL_GREEN;
+		}else if(signalStrength >= mMedian){
+			centerColor = CENTER_BLUE;
+			fillColor = CENTER_BLUE;
+		}else{
+			centerColor = CENTER_RED;
+			fillColor = FILL_RED;
+		}
+		mGoogleMap.addCircle(new CircleOptions()
+			.center(latLng)
+			.radius(mCircleRadius)
+			.strokeColor(centerColor)
+			.strokeWidth(mStrokeWidth)
+			.fillColor(fillColor));
 	}
 	
 }
