@@ -13,22 +13,10 @@
 	    android:focusable="false"
 	    android:padding="4dp"/>
 	
-	<CheckBox
-	    android:id="@+id/list_item_current_provider"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_toLeftOf="@id/list_item_current_tracking"
-	    android:clickable="false"
-	    android:enabled="false"
-	    android:focusable="false"
-	    android:gravity="center"
-	    android:padding="4dp"
-	    android:shadowColor="@color/abc_search_url_text_normal" />
-	
 	<TextView android:id="@+id/list_item_provider_title"
 	    android:layout_width = "match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_toLeftOf="@id/list_item_current_provider"
+	    android:layout_toLeftOf="@id/list_item_current_tracking"
 	    android:textStyle="bold"
 	    android:paddingLeft="4dp"
 	    android:paddingRight="4dp"
@@ -37,7 +25,7 @@
 	<TextView android:id="@+id/list_item_run_date"
 	    android:layout_width = "match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_toLeftOf="@id/list_item_current_provider"
+	    android:layout_toLeftOf="@id/list_item_current_tracking"
 	    android:layout_below="@id/list_item_provider_title"
 	    android:paddingLeft="4dp"
 	    android:paddingRight="4dp"

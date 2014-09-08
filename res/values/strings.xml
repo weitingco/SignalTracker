@@ -5,7 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 	<string name="new_provider">New Provider</string>
-    <string name="net_operator_name">NetworkOperatorName</string>
+    <string name="net_operator_name">Network Operator</string>
     <string name="sim_operator_name">Sim Operator:</string>
     <string name="sim_operator_state">Sim State:</string>
     <string name="signal_strength_gsm">GSM:</string>

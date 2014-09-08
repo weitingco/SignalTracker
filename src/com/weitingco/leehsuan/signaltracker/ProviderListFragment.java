@@ -28,9 +28,11 @@ import com.weitingco.leehsuan.signaltracker.ProviderDatabaseHelper.ProviderCurso
 public class ProviderListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
 	
 	private static final int REQUEST_NEW_PROVIDER = 0;
+	private static final int CURRENT_OPERATOR_BACK_GROUND_COLOR = 0xFF00FFFF;
 	static private TelephonyManager mTM;
 	static private boolean sIsProviderInDatabase = false;
 	static private long sCurrentProviderId;
+	
 	
 	private static class ProviderListCursorLoader extends SQLiteCursorLoader{
 		
@@ -145,17 +147,15 @@ public class ProviderListFragment extends ListFragment implements LoaderCallback
 					//+" ID: "+String.valueOf(provider.getId()));
 			TextView date = (TextView)view.findViewById(R.id.list_item_run_date);
 			String dateFormat = "EEE, MMM 'at' dd k:m:s";
-			date.setText("Run starts from:"+
+			date.setText("Starts from:"+
 					DateFormat.format(dateFormat, provider.getStartDate()));
 			CheckBox check = (CheckBox)view.findViewById(R.id.list_item_current_tracking);
 			check.setChecked(trackingThisProvider);
-			CheckBox isProvider = (CheckBox)view.findViewById(R.id.list_item_current_provider);
 			boolean isEqualtoCurrentOperator = false;
 			if(mTM.getNetworkOperatorName() != null){
 				isEqualtoCurrentOperator = modifiedName.equals(provider.getName());
 			}
-			isProvider.setChecked(isEqualtoCurrentOperator);
-			
+			if(isEqualtoCurrentOperator) view.setBackgroundColor(CURRENT_OPERATOR_BACK_GROUND_COLOR);
 		}
 
 		@Override
