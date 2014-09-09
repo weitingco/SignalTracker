@@ -135,7 +135,7 @@ public class ProviderDatabaseHelper extends SQLiteOpenHelper {
 	
 	public void createProviderLocationTable(String provider){
 		String tableName = TABLE_PROVIDER_LOCATION+provider;
-		getWritableDatabase().execSQL("create table "+ tableName+
+		getWritableDatabase().execSQL(CREATE_LOCATION_TABLE_IF_NOT_EXIST+ tableName+
 				CREATE_LOCATION_TABLE_POST);
 	}
 	
@@ -143,6 +143,11 @@ public class ProviderDatabaseHelper extends SQLiteOpenHelper {
 		String tableName = TABLE_PROVIDER_LOCATION + providerName;
 		getWritableDatabase().execSQL("DROP TABLE IF EXISTS " + tableName);
 		createProviderLocationTable(providerName);
+	}
+	
+	public void deleteProvider(long id){
+		getWritableDatabase().delete(TABLE_PROVIDER, 
+				COLUMN_PROVIDER_ID + "= "+String.valueOf(id), null);
 	}
 	
 	public ProviderCursor queryProviders(){
@@ -212,8 +217,6 @@ public class ProviderDatabaseHelper extends SQLiteOpenHelper {
 		return getWritableDatabase().insert(
 				getLocationTableName(sigLoc), null, cv);
 	}
-	
-	
 	
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

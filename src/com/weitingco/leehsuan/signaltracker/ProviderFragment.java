@@ -47,21 +47,19 @@ public class ProviderFragment extends Fragment {
 	private static final int LOAD_PROVIDER = 0;
     private static final int LOAD_LOCATION = 1;
     private static WakeLock sWL; 
-	
+	private boolean mLoadFinishedFlag;
 	private TelephonyManager mTM;
 	private myPhoneStateListener mListener;
 	private ConnectivityManager mCM;
 	
-	private TextView netText, simText, cdmaText, gsmText, wcdmaText, mSimStateText,
-		lteText, mCellInfoText, mNeighborCellInfoText, mCellLocationText,
-		mMobileNetText, mAltitudeText, mLatitudeText, mLongtitudeText;
+	private TextView netText, cdmaText, gsmText, wcdmaText,lteText, mMobileNetText, 
+		mAltitudeText, mLatitudeText, mLongtitudeText;
 	private Button mStopButton, mStartButton, mMapButton;
 	//Signal types
 	private int mGSM = -1, mCDMA = -1, mWCDMA = -1, mLTE = -1;
 	//Operator related Text
 	private String mSimOperator, mNetOperator, mMobileNetName;
 	//Cell phone support function
-	private String mCellInfo, mNeighborCellInfo, mMobielNetConnectInfo;
 	private ProviderManager mProviderManager;
 	private Provider mProvider;
 	private Location mLastLocation;
@@ -119,8 +117,6 @@ public class ProviderFragment extends Fragment {
 			boolean isGetInfo = false;
 			if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
 				isGetInfo = getSignalStrengthFromCellInfo();
-			} else{
-				mCellInfo = "Your API Version is below 18"; 
 			}
 				
 			if(!isGetInfo || 
@@ -137,29 +133,14 @@ public class ProviderFragment extends Fragment {
 			try{
 				NeighboringCellInfo ncInfo = mTM.getNeighboringCellInfo().get(0);
 				mCDMA = ncInfo.getRssi();
-				mNeighborCellInfo = "not empty";
-				//Log.d(TAG,"getNeighboringCellInfo not empty!!!");
 			} catch(Exception e){
-				if(mTM.getNeighboringCellInfo() == null){
-					mNeighborCellInfo = "empty";
-				}
-				else{
-					if (mTM.getNeighboringCellInfo().size() == 0){
-						mNeighborCellInfo = "empty";
-					} else{
-						mNeighborCellInfo = "Error, Check Log!";
-						//Log.e(TAG,mNeighborCellInfo,e);
-					}
-				}
+				//system not provide this function, do nothing
 			}
 			
 			NetworkInfo[] nfs = mCM.getAllNetworkInfo();
 			
 			for(NetworkInfo nf: nfs){
-				boolean isConnected = nf.isConnected();
-				mMobielNetConnectInfo = mMobielNetConnectInfo + 
-						nf.getTypeName()+" "+nf.getSubtypeName()+" #"+
-						String.valueOf(isConnected)+"\n";
+				//boolean isConnected = nf.isConnected();
 				if(nf.getType() == ConnectivityManager.TYPE_MOBILE){
 					mMobileNetName = nf.getSubtypeName();
 				}
@@ -180,6 +161,7 @@ public class ProviderFragment extends Fragment {
         return pf;
     }
 	
+	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
 		super.onCreateOptionsMenu(menu, inflater);
@@ -191,7 +173,16 @@ public class ProviderFragment extends Fragment {
 		switch(item.getItemId()){
 			case R.id.menu_item_delete_table:
 				if(mProvider != null){
+					mProviderManager.deleteProvider(mProvider.getId());
 					mProviderManager.deleteProviderLocationTable(mProvider.getName());
+					if (mProviderManager.isTrackingProvider(mProvider)){
+						mProviderManager.stopTracking();
+				        if(sWL != null){
+				        	sWL.release();
+				        	sWL = null;
+				        }
+				        updateUI();
+					}
 				}
 				return true;
 			default:
@@ -220,18 +211,31 @@ public class ProviderFragment extends Fragment {
 		mSimOperator = mTM.getSimOperatorName();// return empty string in some cases
 		mNetOperator = mTM.getNetworkOperatorName();
 		mNetOperator = mNetOperator.replaceAll(" ", "_");
+		
 		Bundle args = getArguments();
         if (args != null) {
             long providerId = args.getLong(ARG_PROVIDER_ID, -1);
             if (providerId != -1) {
+            	mLoadFinishedFlag = false;
                 LoaderManager lm = getLoaderManager();
                 lm.initLoader(LOAD_PROVIDER, args, new ProviderLoaderCallbacks());
                 //Implement loader for retrieving provider's data
                 //mLastLocation = mRunManager.getLastLocationForRun(runId);
                 //lm.initLoader(LOAD_LOCATION, args, new LocationLoaderCallbacks());
+            } else{
+            	mLoadFinishedFlag = true;
             }
-        }   
+        } else{
+        	mLoadFinishedFlag = true;
+        }
         
+	}
+	
+	// use the loader instead
+	@Override
+	public void onResume(){
+		super.onResume();
+		
 	}
 	
 	@Override
@@ -260,14 +264,8 @@ public class ProviderFragment extends Fragment {
 			Bundle savedInstanceState){
 		View v = inflater.inflate(R.layout.fragment_provider_info, parent, false);
 		//Bind all TextViews
-		simText = (TextView)v.findViewById(R.id.sim_operator_name);
 		netText = (TextView)v.findViewById(R.id.net_operator_name);
-		//activeNetworkText = (TextView)v.findViewById(R.id.active_network);
-		//ssText = (TextView)v.findViewById(R.id.ss_toString);
-		mCellInfoText = (TextView)v.findViewById(R.id.cell_info);
-		mNeighborCellInfoText = (TextView)v.findViewById(R.id.neighbor_cell_info);
 		mMobileNetText = (TextView)v.findViewById(R.id.mobile_active_network);
-		mSimStateText = (TextView)v.findViewById(R.id.sim_operator_state);
 		//Signal Text
 		gsmText = (TextView)v.findViewById(R.id.signal_strength_gsm);
 		cdmaText = (TextView)v.findViewById(R.id.signal_strength_cdma);
@@ -278,10 +276,6 @@ public class ProviderFragment extends Fragment {
 		mAltitudeText = (TextView)v.findViewById(R.id.fragment_provider_altitude);
 		mLatitudeText = (TextView)v.findViewById(R.id.fragment_provider_latitude);
 		mLongtitudeText = (TextView)v.findViewById(R.id.fragment_provider_longtitude);
-		
-		//Cell location text
-		mCellLocationText = (TextView)v.findViewById(R.id.cell_location);
-		mCellLocationText.setText("Cell location is not provided...");
 
 		//Buttons
 		mStartButton =(Button)v.findViewById(R.id.fragment_provider_start_button);
@@ -294,7 +288,7 @@ public class ProviderFragment extends Fragment {
 		        sWL = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, TAG);
 		        sWL.acquire();
 				if (mProvider == null) {
-					Log.d(TAG,mNetOperator);
+					//Log.d(TAG,mNetOperator);
                     mProvider = mProviderManager.startNewProvider(mNetOperator);
                 } else {
                 	mProviderManager.startTrackingProvider(mProvider);
@@ -325,30 +319,29 @@ public class ProviderFragment extends Fragment {
 		        	sWL.release();
 		        	sWL = null;
 		        }
+				//if(mProvider == null) return; //no database available
 				Intent i = new Intent(getActivity(), ProviderMapActivity.class);
-				i.putExtra(ProviderMapActivity.EXTRA_PROVIDER_ID, mProvider.getId());
-				i.putExtra(ProviderMapActivity.EXTRA_PROVIDER_NAME, mProvider.getName());
+				if(mProvider != null){
+					i.putExtra(ProviderMapActivity.EXTRA_PROVIDER_ID, mProvider.getId());
+					i.putExtra(ProviderMapActivity.EXTRA_PROVIDER_NAME, mProvider.getName());
+				}
 				startActivity(i);
 			}
 		});
-		
-		
-		updateUI();
+		//wait for loading data
+		mStartButton.setEnabled(mLoadFinishedFlag);
+		mStopButton.setEnabled(mLoadFinishedFlag);
+		//updateUI();
 		return v;
 		
 	}
 	
 	private void updateUI(){
-		//Update operator name and state
-		if(!mSimOperator.isEmpty()){
-			simText.setText(mSimOperator);
-		} else {
-			simText.setText("null");
-		}
-		
-		mSimStateText.setText(String.valueOf(mTM.getSimState()));
+		//Update operator name
 		if(mProvider != null){
 			netText.setText(mProvider.getName());
+		}else{
+			netText.setText(mNetOperator);
 		}
 		//Update Signal 
 		if(mGSM  != -1)
@@ -360,20 +353,8 @@ public class ProviderFragment extends Fragment {
 		if(mLTE != -1)
 			lteText.setText(String.valueOf(mLTE));
 		
-		mCellInfoText.setText(mCellInfo);
-		mNeighborCellInfoText.setText(mNeighborCellInfo);
-		mMobileNetText.setText(mMobileNetName);
 		
-		//Get cell location
-		if(mTM.getNetworkType() != TelephonyManager.NETWORK_TYPE_CDMA){	
-			GsmCellLocation cl = (GsmCellLocation)mTM.getCellLocation();
-			try{
-				mCellLocationText.setText(cl.toString());
-			} catch(Exception e){
-				mCellLocationText.setText("Error! Check Log!");
-				//Log.d(TAG, "GsmCellLocation");
-			}
-		}
+		mMobileNetText.setText(mMobileNetName);
 		
 		
 		//Update Location
@@ -387,7 +368,7 @@ public class ProviderFragment extends Fragment {
 		boolean started = mProviderManager.isTrackingProvider();
         boolean trackingThisProvider = mProviderManager.isTrackingProvider(mProvider);
         
-        mStartButton.setEnabled(!started);
+        mStartButton.setEnabled(!started && mProvider.getName().equals(mNetOperator));
 		mStopButton.setEnabled(started && trackingThisProvider);
 	}
 	
@@ -410,18 +391,9 @@ public class ProviderFragment extends Fragment {
 		            throw new Exception("Unknown type of cell signal!");
 		        }
 		    }
-		    mCellInfo = "not empty";
 		    return true;
 		} catch (Exception e) {
 		    //Log.e(TAG, "Unable to obtain cell signal information", e);
-		    if (mTM.getAllCellInfo() == null){
-		    	mCellInfo = "empty";
-		    }else{
-		    	if(mTM.getAllCellInfo().size() == 0)
-		    		mCellInfo = "empty";
-		    	else
-		    		mCellInfo = "Error! Check Log!";
-		    }
 			return false;
 		}
 	}
@@ -430,11 +402,13 @@ public class ProviderFragment extends Fragment {
         
         @Override
         public Loader<Provider> onCreateLoader(int id, Bundle args) {
+        	mLoadFinishedFlag = false;
             return new ProviderLoader(getActivity(), args.getLong(ARG_PROVIDER_ID));
         }
 
         @Override
         public void onLoadFinished(Loader<Provider> loader, Provider provider) {
+        	mLoadFinishedFlag = true;
             mProvider = provider;
             updateUI();
         }

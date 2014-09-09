@@ -12,7 +12,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -84,6 +83,8 @@ public class ProviderListFragment extends ListFragment implements LoaderCallback
 				File fileDB = getActivity().getDatabasePath("providers.sqlite");
 				fileDB.delete();
 				getLoaderManager().destroyLoader(0);
+				if(ProviderManager.get(getActivity()).isTrackingProvider())
+					ProviderManager.get(getActivity()).stopTracking();
 				sIsProviderInDatabase = false;
 				ProviderManager.get(getActivity()).recreateDatabase(getActivity());
 			default:
@@ -156,6 +157,7 @@ public class ProviderListFragment extends ListFragment implements LoaderCallback
 				isEqualtoCurrentOperator = modifiedName.equals(provider.getName());
 			}
 			if(isEqualtoCurrentOperator) view.setBackgroundColor(CURRENT_OPERATOR_BACK_GROUND_COLOR);
+			else view.setBackgroundColor(0xffffff);
 		}
 
 		@Override
@@ -167,6 +169,7 @@ public class ProviderListFragment extends ListFragment implements LoaderCallback
 			return inflater.inflate(R.layout.list_item_provider, parent, false);
 		}
 	}
+	
 	
 	
 	@Override

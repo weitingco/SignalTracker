@@ -10,7 +10,7 @@ public class ProviderListActivity extends SingleFragmentActivity {
 	protected Fragment createFragment() {
 		return new ProviderListFragment();
 	}
-
+	
 	@Override
     protected int getLayoutResId() {
         return R.layout.activity_twopane;

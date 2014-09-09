@@ -60,7 +60,10 @@ public class ProviderMapFragment extends SupportMapFragment
 	private static final int FILL_BLUE = 0x5000FF00;
 	private static final int CENTER_GREEN = 0xFF0000FF;
 	private static final int FILL_GREEN = 0x500000FF;
+	private static final int CENTER_BLACK = 0xFF000000;
+	private static final int FILL_BLACK = 0x50000000;
 	
+	private static final int mNull = -1;
 	private static final int mStrong = -73;
 	private static final int mMedian = -84;
 	
@@ -259,12 +262,18 @@ public class ProviderMapFragment extends SupportMapFragment
 		View v = super.onCreateView(inflater, parent, savedInstanceState);
 		//CAN NOT DO THIS WHY?????
 		//View v = inflater.inflate(R.layout.fragment_map, parent, false);
+		
+		return v;
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
 		//Stash a reference  to the GoogleMap
 		mGoogleMap = getMap();
 		//Show the user's location
-		mGoogleMap.setMyLocationEnabled(true);
-		
-		return v;
+		if(mGoogleMap != null)
+			mGoogleMap.setMyLocationEnabled(true);
 	}
 	
 	@Override
@@ -306,7 +315,7 @@ public class ProviderMapFragment extends SupportMapFragment
 			//move to the next location
 			mLocationCursor.moveToNext();
 			
-			Resources r = getResources();
+			//Resources r = getResources();
 			
 			//If this is the firstLocation, add a marker for it
 			//if(mLocationCursor.isFirst()){
@@ -325,23 +334,8 @@ public class ProviderMapFragment extends SupportMapFragment
 				
 			} else if (mLocationCursor.isLast()){
 				//if this is the last location, and not also the first, add a marker
-				/*String endDate =  new Date(loc.getTime()).toString();
-				MarkerOptions finishMarkerOptions = new MarkerOptions()
-					.position(latLng)
-					.title(r.getString(R.string.location_finish))
-					.snippet(endDate)
-					.icon(BitmapDescriptorFactory
-							.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-				mGoogleMap.addMarker(finishMarkerOptions);*/
 				addCircleFromDatabase(latLng,signalStrength);
 			} else {
-				/*
-				MarkerOptions MidPointMarkerOptions = new MarkerOptions()
-					.position(latLng)
-					.icon(BitmapDescriptorFactory
-							.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-				mGoogleMap.addMarker(MidPointMarkerOptions);
-				*/
 				addCircleFromDatabase(latLng,signalStrength);
 			}
 			
@@ -400,7 +394,10 @@ public class ProviderMapFragment extends SupportMapFragment
 		int signalStrength = mGSM;
 		int centerColor;
 		int fillColor;
-		if(signalStrength >= mStrong){
+		if(signalStrength == mNull){
+			centerColor = CENTER_BLACK;
+			fillColor = FILL_BLACK;
+		}else if(signalStrength >= mStrong){
 			centerColor = CENTER_GREEN;
 			fillColor = FILL_GREEN;
 		}else if(signalStrength >= mMedian){
@@ -422,12 +419,15 @@ public class ProviderMapFragment extends SupportMapFragment
 	private void addCircleFromDatabase(LatLng latLng, int signalStrength){
 		int centerColor;
 		int fillColor;
-		if(signalStrength >= mStrong){
+		if(signalStrength == mNull){
+			centerColor = CENTER_BLACK;
+			fillColor = FILL_BLACK;
+		}else if(signalStrength >= mStrong){
 			centerColor = CENTER_GREEN;
 			fillColor = FILL_GREEN;
 		}else if(signalStrength >= mMedian){
 			centerColor = CENTER_BLUE;
-			fillColor = CENTER_BLUE;
+			fillColor = FILL_BLUE;
 		}else{
 			centerColor = CENTER_RED;
 			fillColor = FILL_RED;

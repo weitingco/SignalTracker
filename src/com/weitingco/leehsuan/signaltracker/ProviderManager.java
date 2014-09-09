@@ -144,7 +144,8 @@ public class ProviderManager {
 	
 	private Provider insertProvider(String name){
 		Provider provider = new Provider(name);
-		provider.setId(mHelper.insertProvider(provider));
+		long id = mHelper.insertProvider(provider);
+		provider.setId(id);
 		return provider;
 	}
 	
@@ -178,7 +179,17 @@ public class ProviderManager {
 		Provider provider = null;
 		ProviderCursor cursor = mHelper.queryProvider(id);
 		cursor.moveToFirst();
-		//If you get a row, get a run
+		//If you get a row, get a provider
+		if(!cursor.isAfterLast()) provider = cursor.getProvider();
+		cursor.close();
+		return provider;
+	}
+	
+	public Provider getProvider(String name){
+		Provider provider = null;
+		ProviderCursor cursor = mHelper.queryProvider(name);
+		cursor.moveToFirst();
+		//If you get a row, get a provider
 		if(!cursor.isAfterLast()) provider = cursor.getProvider();
 		cursor.close();
 		return provider;
@@ -192,8 +203,13 @@ public class ProviderManager {
 		mHelper.deleteProviderLocationTable(providerName);
 	}
 	
+	public void deleteProvider(long id){
+		mHelper.deleteProvider(id);
+	}
 	
 	public LocationCursor queryLocationForProvider(String provider){
 		return mHelper.queryLocationForProvider(provider);
 	}
+	
+	
 }

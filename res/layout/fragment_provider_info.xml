@@ -26,36 +26,7 @@
 			    	android:id="@+id/net_operator_name"/>   
 			</TableRow>
 			
-			<TableRow
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" >
-
-			    <TextView android:layout_width="wrap_content"
-			    	android:layout_height="wrap_content"
-			    	android:text="@string/sim_operator_state"
-			    	android:gravity="right"
-			    	android:paddingRight="5sp"/>
-			    
-			    <TextView android:layout_width="fill_parent"
-			    	android:layout_height="wrap_content"
-			    	android:id="@+id/sim_operator_state"/>   
-			</TableRow>
-			
-			<TableRow
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:paddingBottom="8dp" >
-
-			    <TextView android:layout_width="wrap_content"
-			    	android:layout_height="wrap_content"
-			    	android:text="@string/sim_operator_name"
-			    	android:gravity="right"
-			    	android:paddingRight="5sp"/>
-			    
-			    <TextView android:layout_width="fill_parent"
-			    	android:layout_height="wrap_content"
-			    	android:id="@+id/sim_operator_name"/>   
-			</TableRow>
+		
 			
 			<TableRow
 			    android:layout_width="wrap_content"
@@ -115,21 +86,6 @@
 			    <TextView android:layout_width="fill_parent"
 			    	android:layout_height="wrap_content"
 			    	android:id="@+id/signal_strength_lte"/>   
-			</TableRow>
-			
-			<TableRow
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" >
-
-			    <TextView android:layout_width="wrap_content"
-			    	android:layout_height="wrap_content"
-			    	android:text="@string/cell_location"
-			    	android:gravity="right"
-			    	android:paddingRight="5sp"/>
-			    
-			    <TextView android:layout_width="fill_parent"
-			    	android:layout_height="wrap_content"
-			    	android:id="@+id/cell_location"/>   
 			</TableRow>
 			
 			<TableRow
@@ -198,45 +154,7 @@
 			    
 			</TableRow>
 			
-			<TextView android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="@string/cell_phone_info"
-			    android:gravity="left"
-			    android:paddingTop="8dp"
-			    />
-			     
-			<TableRow
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:paddingTop="8dp" >
-
-			    <TextView android:layout_width="wrap_content"
-			    	android:layout_height="wrap_content"
-			    	android:text="@string/cell_info"
-			    	android:gravity="right"
-			    	android:paddingRight="5sp"/>
-			    
-			    <TextView android:layout_width="fill_parent"
-			        android:layout_height="wrap_content"
-			        android:id="@+id/cell_info"/>
-			    
-			</TableRow>
 			
-			<TableRow
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content" >
-
-			    <TextView android:layout_width="wrap_content"
-			    	android:layout_height="wrap_content"
-			    	android:text="@string/neighbor_cell_info"
-			    	android:gravity="right"
-			    	android:paddingRight="5sp"/>
-			    
-			    <TextView android:layout_width="fill_parent"
-			        android:layout_height="wrap_content"
-			        android:id="@+id/neighbor_cell_info"/>
-			     
-			</TableRow>
 			
 			
 		</TableLayout>

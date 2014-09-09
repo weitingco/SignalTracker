@@ -22,6 +22,36 @@
 			    	android:id="@+id/current_net_operator_name"/>   
 			</TableRow>
 			
+            <TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/is_in_db"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/current_is_in_db"/>   
+			</TableRow>
+            
+            <TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/mobile_active_network"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/current_mobile_net_type"/>   
+			</TableRow>
+			
 			<TableRow
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content" >
@@ -52,6 +82,61 @@
 			    	android:layout_height="wrap_content"
 			    	android:id="@+id/current_sim_operator_name"/>   
 			</TableRow> 
+			
+			<TextView android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="@string/cell_phone_info"
+			    android:gravity="left"
+			    android:paddingTop="8dp"
+			    />
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/cell_location"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			    	android:layout_height="wrap_content"
+			    	android:id="@+id/cell_location"/>   
+			</TableRow>
+			     
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:paddingTop="8dp" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/cell_info"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:id="@+id/cell_info"/>
+			    
+			</TableRow>
+			
+			<TableRow
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" >
+
+			    <TextView android:layout_width="wrap_content"
+			    	android:layout_height="wrap_content"
+			    	android:text="@string/neighbor_cell_info"
+			    	android:gravity="right"
+			    	android:paddingRight="5sp"/>
+			    
+			    <TextView android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:id="@+id/neighbor_cell_info"/>
+			     
+			</TableRow>
 	</TableLayout>
 	
 	<View android:id="@+id/separator" 
